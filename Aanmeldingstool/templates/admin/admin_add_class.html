@@ -1,0 +1,25 @@
+{% extends "base5.html" %}
+
+{% block content %}
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin - Add Class</title>
+</head>
+<body>
+    <div style="padding-top: 25px;">
+        <h1 class="fw-bold">Klas Toevoegen</h1>
+        <div class="container">
+            <form action="/admin/classes/add" method="post">
+                <div class="mb-3">
+                    <label for="class_name" class="form-label">Klasnaam:</label>
+                    <input type="text" class="form-control" id="class_name" name="class_name" required>
+                </div>
+                <button type="submit" class="btn btn-primary">Voeg toe</button>
+                <a class="btn btn-secondary" href="/admin/classes">Terug</a>
+            </form>
+        </div>
+    </div>
+</body>
+{% endblock %}

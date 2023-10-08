@@ -1,0 +1,128 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins&display=swap%27');
+
+* {
+    -webkit-font-smoothing: antialiased;
+}
+
+html {
+    font-family: "Poppins", sans-serif;
+}
+
+
+body {
+    background-color: #fff7ea;
+    font-family: "Poppins", sans-serif;
+    padding-bottom: 80px;
+    color: #001e48;
+}
+
+div {
+    display: block;
+}
+
+.logo {
+    margin: 20px;
+    width: 60px;
+}
+
+form {
+    background-color: transparent;
+    height: auto;
+    width: auto;
+    border-radius: 20px;
+    display: block;
+    margin-top: 50px;
+    padding: 25px;
+}
+
+.head_login_form {
+    font-weight: bold;
+    font-family: "Poppins", sans-serif;
+    font-size: 50px;
+}
+
+.body_login_form {
+    padding-top: 30px;
+}
+
+.nav-link {
+    color: #3caad7;
+    font-family: "Poppins", sans-serif;
+    font-weight: 600;
+}
+
+.login_input {
+    border: none;
+    border-bottom: 2px solid #001e48;
+    width: 350px;
+    height: 40px;
+    background-color: transparent;
+    transition: 175ms ease-in-out;
+}
+
+.login_input:focus {
+    outline: none;
+    border: none;
+    border-bottom: 4px solid #3caad7;
+}
+
+.input_text {
+    font-family: "Poppins", sans-serif;
+    font-weight: bold;
+    font-size: 18px;
+    padding-top: 40px;
+}
+
+.login_button {
+    text-align: center;
+}
+
+.login_button input {
+    background-color: #3caad7;
+    color: white;
+    font-family: "Poppins", sans-serif;
+    font-weight: 600;
+    border-radius: 25px;
+    border: 0px;
+    width: 200px;
+    height: 47px;
+    margin-top: 80px;
+    transition: 300ms;
+}
+
+.login_button input:hover {
+    background-color: black;
+}
+
+footer {
+    font-family: "Poppins", sans-serif;
+    background-color: #000;
+    width: 100%;
+    height: 80px;
+}
+
+footer .container {
+    width: 900px;
+}
+
+.footer_item {
+    color: white;
+    text-decoration: none;
+    font-family: "Poppins", sans-serif;
+    font-weight: 600;
+    margin: 20px;
+}
+
+.footer_item:hover {
+    text-decoration: underline;
+}
+
+.footer_link::before {
+    content: '';
+    position: absolute;
+    top: 41%;
+    height: 12px;
+    width: 10px;
+    background: url(https://login.hr.nl/v1/assets/svg/icons/chevron-right-white.svg) no-repeat;
+}
+

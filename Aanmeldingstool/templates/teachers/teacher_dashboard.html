@@ -1,0 +1,97 @@
+{% extends "base3.html" %}
+
+{% block content %}
+<head>
+<script src="https://code.jquery.com/jquery-3.6.2.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+  <h1>Welkom {{ name_t.split()[0] }}!</h1>
+  <div class="card" id="meeting-card">
+    <div class="card-header">Gemiddelde aanwezigheid per meeting</div>
+    <div class="card-body">
+      <canvas id="meeting-chart"></canvas>
+    </div>
+  </div>
+  <div class="card" id="class-card" style="display: none;">
+    <div class="card-header">Aantal leerlingen per klas</div>
+    <div class="card-body">
+      <canvas id="class-chart"></canvas>
+    </div>
+  </div>
+  <br>
+  <button type="button" class="btn btn-primary" id="toggle-button">Wijzig kaart</button>
+  <script>
+    // Get the attendance data from the API
+    fetch('/api/average_attendance')
+      .then(response => response.json())
+      .then(data => {
+        // Create the meeting chart
+        const meetingData = data.meeting_data;
+        const meetingLabels = meetingData.map(d => d.meeting_id);
+        const meetingValues = meetingData.map(d => d.avg_attendance * 100);
+        const meetingChart = new Chart(document.getElementById('meeting-chart'), {
+          type: 'bar',
+          data: {
+            labels: meetingLabels,
+            datasets: [{
+              label: 'Gemiddelde aanwezigheid per Meeting',
+              data: meetingValues,
+              backgroundColor: 'rgba(75, 192, 192, 0.2)',
+              borderColor: 'rgba(75, 192, 192, 1)',
+              borderWidth: 1
+            }]
+          },
+          options: {
+            scales: {
+              y: {
+                beginAtZero: true,
+                max: 100,
+                ticks: {
+                  callback: function(value, index, values) {
+                    return value + '%';
+                  }
+                }
+              }
+            }
+          }
+        });
+
+        // Create the class chart
+        const classData = data.class_data;
+        const classLabels = classData.map(d => d.class_id);
+        const classValues = classData.map(d => d.size);
+        const classChart = new Chart(document.getElementById('class-chart'), {
+          type: 'bar',
+          data: {
+            labels: classLabels,
+            datasets: [{
+              label: 'Klas Grootte',
+              data: classValues,
+              backgroundColor: 'rgba(255, 99, 132, 0.2)',
+              borderColor: 'rgba(255, 99, 132, 1)',
+              borderWidth: 1
+            }]
+          },
+          options: {
+            scales: {
+              y: {
+                beginAtZero: true
+              }
+            }
+          }
+        });
+
+        // Toggle visibility of cards on button click
+        $('#toggle-button').click(() => {
+          $('#meeting-card').toggle();
+          $('#class-card').toggle();
+        });
+      })
+      .catch(error => {
+        console.error('Error getting attendance data:', error);
+      });
+  </script>
+</body>
+  
+{% endblock %}

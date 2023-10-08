@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='/login_mobile.css') }}">
+    <link rel="shortcut icon" href="{{ url_for('static', filename='images/logo.svg') }}">
+    <title>Login Rotterdam Academy</title>
+</head>
+<body>
+    <div class="container">
+        <div class="row">
+            <a class="logo" href="https://www.hogeschoolrotterdam.nl/"><img src="{{ url_for('static', filename='images/logo.svg') }}" name="HomeButton" action="/main"></a>
+
+        </div>
+    </div>
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-sm-8 col-md-6 col-lg-4">
+                <form method="POST" action="{{ url_for('login_for_redirect', meeting_id=meeting_id) }}">
+                    <input type="hidden" name="meeting_id" value="{{ meeting_id }}">
+                        <div class="body_login_form">
+                    <div class="form-group">
+                        <label for="username">Studentnummer</label>
+                        <input class="form-control" type="text" name="username" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="password">Wachtwoord</label>         
+                        <input class="form-control" type="password" name="password" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="role">Rol:</label>
+                        <select class="form-control" name="role" id="role">
+                            <option value="student">Student</option>
+                            <option value="teacher">Docent</option>
+                            <option value="admin">Administrator</option>
+                        </select>
+                    </div>
+                    {% with messages = get_flashed_messages(with_categories=true) %}
+                    {% if messages %}
+                      {% for category, message in messages %}
+                        <div class="alert alert-{{ category }}">
+                          {{ message }}
+                        </div>
+                      {% endfor %}
+                    {% endif %}
+                  {% endwith %}
+                    <div class="form-group">
+                        <input class="btn btn-primary" value="Inloggen" name="LoginButton" type="submit">
+                    </div>
+                </form>
+            </div>
+        </div>
+        </div>
+    </div>
+    </div>
+    </body>
+    <footer class="fixed-bottom">
+        <div class="container">
+            <div class="row">
+                <div class="d-flex align-items-center justify-content-between" style="height: 80px;">
+                    <div class="footer_contact">
+                        <a class="footer_item" href="tel:+310107941111">010 - 794 1111</a>
+                        <a class="footer_item" href="mailto:service@hr.nl">service@hr.nl</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer>
+</body>
+</html>

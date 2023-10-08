@@ -1,0 +1,70 @@
+{% extends "base3.html" %}
+
+{% block content %}
+<div class="container">
+  <h1 class="my-4">Aankomende Lessen</h1>
+  <div class="row" id="meetings-list">
+  </div>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.6.2.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jsSHA/2.3.1/sha.js"></script>
+
+<script>
+  function generateHash(meetingId) {
+    var salt = "your_salt_here";  // Use the same salt as in your Python code
+    var inputStr = meetingId + salt;
+    var shaObj = new jsSHA("SHA-256", "TEXT");
+    shaObj.update(inputStr);
+    return shaObj.getHash("HEX");
+  }
+
+  $(document).ready(function() {
+    // Make a GET request to the API endpoint
+    $.ajax({
+      url: '/api/upcoming_meetings',
+      type: 'GET',
+      dataType: 'json',
+      success: function(data) {
+        // Iterate over the meetings and add them to the list
+        var meetings = data.upcoming_meetings;
+        meetings.forEach(function(meeting) {
+          var meetingId = meeting[0];
+          var title = meeting[1];
+          var date = meeting[2];
+          var time = meeting[3];
+          var duration = meeting[4];
+          var location = meeting[5];
+          var description = meeting[6];
+          var meetingHash = generateHash(meetingId);
+
+          // Create a card for each meeting
+          var card = $('<div class="card my-3">');
+          var cardBody = $('<div class="card-body">');
+          var cardmeetingId = $('<h5 class="card-title">').text(meetingId);
+          var cardTitle = $('<h5 class="card-title">').text(title);
+          var cardSubtitle = $('<h6 class="card-subtitle mb-2 text-muted">').text(date + ' ' + time);
+          var cardText = $('<p class="card-text">').text(description);
+          var cardlocation = $('<p class="card-text">').text(location);
+          var cardLink = $('<a class="btn btn-primary" href="/meetings/' + meetingHash + '">').text('Ga naar details les');
+
+          
+
+          cardBody.append(cardmeetingId);
+          cardBody.append(cardTitle);
+          cardBody.append(cardSubtitle);
+          cardBody.append(location);
+          cardBody.append(cardText);
+          cardBody.append(cardLink);
+          card.append(cardBody);
+
+          $('#meetings-list').append(card);
+        });
+      },
+      error: function(error) {
+        console.log(error);
+      }
+    });
+  });    
+</script>
+{% endblock %}

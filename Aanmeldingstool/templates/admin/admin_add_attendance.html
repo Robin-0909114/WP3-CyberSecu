@@ -1,0 +1,61 @@
+{% extends "base5.html" %}
+
+{% block content %}
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin - Aanwezigheid Toevoegen</title>
+</head>
+<body>
+    <div style="padding-top: 25px;">
+        <h1 class="fw-bold">Aanwezigheid Toevoegen</h1>
+        <div class="container">
+            <form action="/admin/attendance/add" method="post">
+                <div class="mb-3">
+                    <label for="attendance_date" class="form-label">Datum:</label>
+                    <input type="date" class="form-control" id="attendance_date" name="attendance_date" required>
+                </div>
+                <div class="mb-3">
+                    <label for="attendance_time" class="form-label">Tijd:</label>
+                    <input type="time" class="form-control" id="attendance_time" name="attendance_time" required>
+                </div>
+                <div class="mb-3">
+                    <label for="status" class="form-label">Status:</label>
+                    <input type="text" class="form-control" id="status" name="status" required>
+                </div>
+                <div class="mb-3">
+                    <label for="student_number" class="form-label">Studentnummer:</label>
+                    <input type="text" class="form-control" id="student_number" name="student_number" required>
+                </div>
+                <div class="mb-3">
+                    <label for="question" class="form-label">Vraag:</label>
+                    <input type="text" class="form-control" id="question" name="question" required>
+                </div>
+                <div class="mb-3">
+                    <label for="answer" class="form-label">Antwoord:</label>
+                    <input type="text" class="form-control" id="answer" name="answer" required>
+                </div>
+                <div class="mb-3">
+                    <label for="reason" class="form-label">Reden:</label>
+                    <input type="text" class="form-control" id="reason" name="reason" required>
+                </div>
+                <div class="mb-3">
+                    <label for="meeting_id" class="form-label">Meeting ID:</label>
+                    <input type="text" class="form-control" id="meeting_id" name="meeting_id" required>
+                </div>
+                <div class="mb-3">
+                    <label for="student_id" class="form-label">Student ID:</label>
+                    <input type="text" class="form-control" id="student_id" name="student_id" required>
+                </div>
+                <div class="mb-3">
+                    <label for="class_id" class="form-label">Klas ID:</label>
+                    <input type="text" class="form-control" id="class_id" name="class_id" required>
+                </div>
+                <button type="submit" class="btn btn-primary">Aanwezigheid Toevoegen</button>
+                <a class="btn btn-secondary" href="/admin/attendance">Terug</a>
+            </form>
+        </div>
+    </div>
+</body>
+{% endblock %}

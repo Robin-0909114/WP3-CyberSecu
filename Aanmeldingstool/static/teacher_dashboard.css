@@ -1,0 +1,131 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins&display=swap%27');
+
+* {
+    -webkit-font-smoothing: antialiased;
+}
+
+html {
+    font-family: "Poppins", sans-serif;
+}
+
+body {
+    background-color: #fff7ea;
+    font-family: "Poppins", sans-serif;
+    color: #001e48;
+    transition: background-color .5s;
+}
+
+.navbar {
+    height: 80px;
+}
+
+nav .container-fluid {
+    width: 1600px;
+}
+
+nav {
+    background-color: transparent;
+    color: #001e48;
+}
+
+.nav-link {
+    color: #001e48;
+}
+
+.logo {
+    width: 42px;
+}
+
+.main-content .container {
+    width: 900px;
+}
+
+.button {
+    width: auto;
+    height: auto;
+    background-color: transparent;
+    border-radius: 20px;
+    transition: 0.3s;
+    padding-left: 5px;
+}
+
+.CloseButton {
+    font-size: 45px;
+    cursor: pointer;
+    padding-left: 25px;
+    color: white;
+    top: 0px;
+    padding-top: 5px;
+    padding-left: 320px;
+}
+.sidenav {
+    height: 100%;
+    width: 0;
+    position: fixed;
+    z-index: 5;
+    top: 0;
+    right: 0;
+    background-color: #3caad7;
+    overflow-x: hidden;
+    transition: 0.5s;
+    padding-top: 60px;
+}
+    
+.sidenav a {
+    padding: 8px 8px 8px 32px;
+    text-decoration: none;
+    font-size: 17px;
+    color: white;
+    display: block;
+    transition: 0.3s;
+}
+    
+.sidenav a:hover {
+    color: #f1f1f1;
+    background-color: #03506F;
+}
+    
+.sidenav .closebtn {
+    position: absolute;
+    top: 0;
+    right: 25px;
+    font-size: 36px;
+    margin-right: 50px;
+}
+    
+#main {
+    transition: margin-right .5s;
+    padding: 16px;
+}
+
+.body_sidenav {
+    padding-top: 20px;
+}
+    
+@media screen and (max-height: 450px) {
+   .sidenav {padding-top: 15px;}
+   .sidenav a {font-size: 18px;}
+}
+
+.logout:hover {
+    background-color: transparent!important;
+    text-decoration: underline;
+}
+
+.btn-primary {
+    background-color: #3caad7;
+    border-color: #3caad7;
+  }
+  
+  .btn-primary:hover,
+  .btn-primary:focus {
+    background-color: #1f7ca8;
+    border-color: #1f7ca8;
+  }
+  
+  .btn-primary:active {
+    background-color: #1a6a8a;
+    border-color: #1a6a8a;
+  }
+  
+  

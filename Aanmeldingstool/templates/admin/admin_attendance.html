@@ -1,0 +1,58 @@
+{% extends "base5.html" %}
+
+{% block content %}
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin - Attendance</title>
+</head>
+<body>
+  <div style="padding-top: 25px;" class="d-flex justify-content-between align-items-end">
+    <h1 class="fw-bold">Aanwezigheid Studenten</h1>
+    <a href="/admin/attendance/add" class="btn btn-primary">Voeg toe</a>
+  </div> 
+    <div class="container">
+      <table class="table table-hover">
+        <thead>
+          <tr>
+            <th>ID</th>
+            <th>Datum</th>
+            <th>Tijd</th>
+            <th>Status</th>
+            <th>Studentnummer</th>
+            <th>Vraag</th>
+            <th>Antwoord</th>
+            <th>Reden</th>
+            <th>Student ID</th>
+            <th>Meeting ID</th>
+            <th>Actie</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for attendance in attendances %}
+            <tr>
+              <td>{{ attendance[0] }}</td>
+              <td>{{ attendance[2] }}</td>
+              <td>{{ attendance[3] }}</td>
+              <td>{{ attendance[4] }}</td>
+              <td>{{ attendance[5] }}</td>
+              <td>{{ attendance[6] }}</td>
+              <td>{{ attendance[7] }}</td>
+              <td>{{ attendance[8] }}</td>
+              <td>{{ attendance[9] }}</td>
+              <td>{{ attendance[10] }}</td>
+              <td>
+                <a href="/admin/attendance/update/{{ attendance[0] }}" class="btn btn-outline-primary btn-sm me-2">Pas aan</a>
+                <form action="/admin/attendance/delete" method="post" class="d-inline">
+                  <input type="hidden" name="attendance_id" value="{{ attendance[0] }}">
+                  <button type="submit" class="btn btn-outline-danger btn-sm">Verwijder</button>
+                </form>
+              </td>
+            </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+    
+{% endblock %}

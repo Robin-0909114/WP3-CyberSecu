@@ -1,0 +1,48 @@
+{% extends 'base5.html' %}
+
+{% block content %}
+    <h1>Update Meeting</h1>
+    <form method="POST">
+        <div class="form-group">
+            <label for="meeting_title">Title</label>
+            <input type="text" class="form-control" name="meeting_title" value="{{ meeting[1] }}" required>
+        </div>
+        <div class="form-group">
+            <label for="meeting_date">Date</label>
+            <input type="date" class="form-control" name="meeting_date" value="{{ meeting[2] }}" required>
+        </div>
+        <div class="form-group">
+            <label for="meeting_time">Time</label>
+            <input type="time" class="form-control" name="meeting_time" value="{{ meeting[3] }}" required>
+        </div>
+        <div class="form-group">
+            <label for="meeting_duration">Duration</label>
+            <input type="number" class="form-control" name="meeting_duration" value="{{ meeting[4] }}" required>
+        </div>
+        <div class="form-group">
+            <label for="meeting_location">Location</label>
+            <input type="text" class="form-control" name="meeting_location" value="{{ meeting[5] }}" required>
+        </div>
+        <div class="form-group">
+            <label for="meeting_description">Description</label>
+            <input type="text" class="form-control" name="meeting_description" value="{{ meeting[6] }}" required>
+        </div>
+        <div class="form-group">
+            <label for="class_id">Class</label>
+            <input type="text" class="form-control" name="class_id" value="{{ meeting[10] }}" required>
+        </div>
+        <div class="form-group">
+            <label for="meeting_status">Status</label>
+            <select class="form-select" name="meeting_status" required>
+                <option value="open" {% if meeting[11] == 'open' %} selected {% endif %}>Open</option>
+                <option value="closed" {% if meeting[11] == 'closed' %} selected {% endif %}>Closed</option>
+            </select>
+            
+        </div>
+        <div class="form-group">
+            <label for="question">Question</label>
+            <input type="text" class="form-control" name="question" value="{{ meeting[12] }}" required>
+        </div>
+        <button type="submit" class="btn btn-primary">Update Meeting</button>
+    </form>
+{% endblock %}

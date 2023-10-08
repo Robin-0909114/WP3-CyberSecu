@@ -1,0 +1,79 @@
+{% extends "base3.html" %}
+
+{% block content %}
+<head>
+  <title>Aanwezigheid</title>
+  <script src="https://code.jquery.com/jquery-3.6.2.min.js"></script>
+</head>
+<body>
+  <div class="container">
+    <h1>Aanwezigheid</h1>
+    <div class="form-group">
+      <label for="student-number">Filter op studentnaam of studentnummer:</label>
+      <input type="text" class="form-control" id="student-number">
+    </div>
+    <div id="attendance-table">
+      <table class="table table-bordered" id="attendance-table">
+              <thead class="table-dark">
+                <tr>
+                  <th>Datum</th>
+                  <th>Tijd</th>
+                  <th>Naam</th>
+                  <th>Studentnummer</th>
+                  <th>Status</th>
+                  <th>Klas</th>
+                  <th>Meeting</th>
+                  <th>Vraag</th>
+                  <th>Antwoord</th>
+                  <th>Reden</th>
+                </tr>
+              </thead>
+          <tbody>
+          </tbody>
+        </table>
+    </div>
+  </div>
+
+  <script>
+      function getAttendance(filterText) {
+        $.get("/api/attendance", function(data) {
+          var attendance = data.attendance;
+          var tableBody = $('#attendance-table > tbody');
+          tableBody.empty();
+
+          if (filterText) {
+            attendance = attendance.filter(function(item) {
+              return item.studentnumber === filterText || item.student_name.includes(filterText);
+            });
+          }
+  
+        attendance.forEach(function(item) {
+          var row = $('<tr></tr>');
+          row.append($('<td></td>').text(item.date));
+          row.append($('<td></td>').text(item.time));
+          row.append($('<td></td>').text(item.student_name));
+          row.append($('<td></td>').text(item.studentnumber));
+          row.append($('<td></td>').text(item.status));
+          row.append($('<td></td>').text(item.class_id));
+          row.append($('<td></td>').text(item.Meeting_id));
+          row.append($('<td></td>').text(item.question));
+          row.append($('<td></td>').text(item.answer));
+          row.append($('<td></td>').text(item.reason));
+          tableBody.append(row);
+        });
+      });
+    }
+
+
+    $(document).ready(function() {
+      getAttendance();
+  
+      $('#student-number').on('input', function() {
+    var filterText = $(this).val();
+    getAttendance(filterText);
+      });
+    });
+  
+  </script>
+</body>
+{% endblock %}

@@ -1,0 +1,87 @@
+{% extends "base2.html" %}
+
+{% block content %}
+<head>
+  <title>Student Check-In</title>
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+</head>
+<body>
+  <h1>Student Check-In</h1>
+  <form id="checkin-form" method="POST">
+    <label for="student-number">Studentnummer:</label>
+    <input type="text" name="student-number" id="student-number" required>
+    <br>
+    <label for="status">Status:</label>
+    <select name="status" id="status" required>
+      <option value="present">Aanwezig</option>
+      <option value="absent">Afwezig</option>
+    </select>
+    <br>
+    <div id="question-container" style="display: none;">
+      <label for="question">Vraag:</label>
+      <span id="question-text"></span>
+      <input type="hidden" name="question" id="question">
+      <br>
+      <label for="answer">Antwoord:</label>
+      <input type="text" name="answer" id="answer" required>
+    </div>
+    <div id="reason-container" style="display: none;">
+      <label for="reason">Reden:</label>
+      <input type="text" name="reason" id="reason">
+    </div>
+    <br>
+    <button type="submit">Submit</button>
+  </form>
+
+  <script>
+    // Gets a random question and display it
+    $(document).ready(function() {
+        // Show the question by default
+        $.ajax({
+          url: '/api/questions/random',
+          type: 'GET',
+          success: function(data) {
+            $('#question-text').text(data.question);
+            $('#question').val(data.question);
+            $('#question-container').show();
+          }
+        });
+      
+        // Hide the question when status is changed to "absent"
+        $('#status').on('change', function() {
+          if ($(this).val() === 'absent') {
+            $('#question-container').hide();
+            $('#reason-container').show();
+          } else {
+            $('#question-container').show();
+            $('#reason-container').hide();
+          }
+        });
+      
+        // Submit the form data to the server
+        $('#checkin-form').on('submit', function(event) {
+          event.preventDefault();
+          var data = {
+            'status': $('#status').val(),
+            'question': $('#question').val(),
+            'answer': $('#answer').val(),
+            'reason': $('#reason').val()
+          };
+          var studentNumber = $('#student-number').val();
+          $.ajax({
+            url: '/api/checkin/' + studentNumber,
+            type: 'POST',
+            data: JSON.stringify(data),
+            contentType: 'application/json',
+            success: function(response) {
+              alert(response.message);
+            },
+            error: function(xhr, status, error) {
+              alert('Error checking in: ' + xhr.responseText);
+            }
+          });
+        });
+      });
+  </script>
+</body>
+{% endblock %}

@@ -1,0 +1,33 @@
+{% extends "base4.html" %}
+
+{% block content %}
+<script src='https://cdn.jsdelivr.net/npm/@fullcalendar/core@6.1.4/index.global.min.js'></script>
+<script src='https://cdn.jsdelivr.net/npm/@fullcalendar/daygrid@6.1.4/index.global.min.js'></script>
+<script src='https://cdn.jsdelivr.net/npm/fullcalendar-scheduler@6.1.4/index.global.min.js'></script>
+<link href='https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.1/font/bootstrap-icons.css' rel='stylesheet'>
+
+<body style="padding-top: 40px;">
+  <div id='calendar'></div>
+  <h1>Overzicht cursussen</h1>
+  <div class="row">
+    {% for event in events %}
+      {% if event.summary %}
+        <div class="col-lg-4 col-md-6">
+          <div class="card my-3">
+            <div class="card-body">
+              <h5 class="card-title">{{ event.summary }}</h5>
+              <h6 class="card-subtitle mb-2 text-muted">{{ event.location }}</h6>
+              <p class="card-text">{{ event.description }}</p>
+              <ul class="list-group list-group-flush">
+                <li class="list-group-item">Start: {{ event.start }}</li>
+                <li class="list-group-item">End: {{ event.end }}</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      {% endif %}
+    {% endfor %}
+  </div>
+
+{% endblock %}
+

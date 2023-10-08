@@ -1,0 +1,128 @@
+{% extends "base3.html" %}
+
+{% block content %}
+
+
+<h1 class="my-4">Alle Lessen</h1>
+<div class="row mb-3">
+  <div class="col-md-4">
+    <label for="date-input">Datum:</label>
+    <input type="date" id="date-input" class="form-control" required>
+  </div>
+  <div class="col-md-3">
+    <label for="name-input">Lesnaam:</label>
+    <input type="text" id="name-input" class="form-control">
+  </div>
+  <div class="col-md-2 mb-3">
+    <button id="filter-button" class="btn btn-primary">Filter</button>
+  </div>
+  <div class="col-md-2 mb-3">
+    <button id="reset-button" class="btn btn-secondary">Reset</button>
+  </div>
+</div>
+<div id="meetings-list">
+</div>
+  
+
+<script src="https://code.jquery.com/jquery-3.6.2.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jsSHA/2.3.1/sha.js"></script>
+
+<script>
+ $(document).ready(function() {
+    // Get the meetings data from the server
+    $.ajax({
+      url: '/api/all_meetings',
+      type: 'GET',
+      dataType: 'json',
+      success: function(data) {
+        var meetings = data.upcoming_meetings;
+
+        // Render all meetings
+        renderMeetings(meetings);
+
+        // Handle the filter button click event
+        $('#filter-button').click(function() {
+          // Get the selected date and name from the input fields
+          var selectedDate = $('#date-input').val();
+          var selectedName = $('#name-input').val().toLowerCase();
+
+          // Filter meetings by the selected date and name
+          var filteredMeetings = meetings.filter(function(meeting) {
+            var meetingDate = meeting[2];
+            var meetingName = meeting[1].toLowerCase();
+            return (meetingDate === selectedDate || !selectedDate) && (meetingName.includes(selectedName) || !selectedName);
+          });
+
+          // Render the filtered meetings
+          renderMeetings(filteredMeetings);
+        });
+
+        // Handle the reset button click event
+        $('#reset-button').click(function() {
+          renderMeetings(meetings);
+          $('#date-input').val('');
+          $('#name-input').val('');
+        });
+      },
+      error: function(error) {
+        console.log(error);
+      }
+    });
+
+    function generateHash(meetingId) {
+      var salt = "your_salt_here";  // Use the same salt as in your Python code
+      var inputStr = meetingId + salt;
+      var shaObj = new jsSHA("SHA-256", "TEXT");
+      shaObj.update(inputStr);
+      return shaObj.getHash("HEX");
+    }
+    // Render the given meetings in the meetings list container
+    function renderMeetings(meetings) {
+      var meetingsList = $('#meetings-list');
+      meetingsList.empty();
+
+      // Create a row for each set of three meetings
+      for (var i = 0; i < meetings.length; i += 3) {
+        var row = $('<div class="row my-4">');
+
+        
+        for (var j = i; j < i + 3 && j < meetings.length; j++) {
+          var meeting = meetings[j];
+          var meetingId = meeting[0];
+          var title = meeting[1];
+          var date = meeting[2];
+          var time = meeting[3];
+          var duration = meeting[4];
+          var location = meeting[5];
+          var description = meeting[6];
+          var meetingHash = generateHash(meetingId);
+
+          // Create a card for the meeting
+          var card = $('<div class="card col-md-3 mx-1">');
+          var cardBody = $('<div class="card-body">');
+          var cardmeetingId = $('<h5 class="card-title">').text(meetingId);
+          var cardTitle = $('<h5 class="card-title">').text(title);
+          var cardSubtitle = $('<h6 class="card-subtitle mb-2 text-muted">').text(date + ' ' + time);
+          var cardText = $('<p class="card-text">').text(description);
+          var cardlocation = $('<p class="card-text">').text(location);
+          var cardLink = $('<a class="btn btn-primary" href="/meetings/' + meetingHash + '">').text('Ga naar details les');
+
+          cardBody.append(cardmeetingId);
+          cardBody.append(cardTitle);
+          cardBody.append(cardSubtitle);
+          cardBody.append(cardlocation);
+          cardBody.append(cardText);
+          cardBody.append(cardLink);
+          card.append(cardBody);
+
+          row.append(card);
+        }
+
+        meetingsList.append(row);
+      }
+    }
+  });    
+</script>
+
+  
+{% endblock %}

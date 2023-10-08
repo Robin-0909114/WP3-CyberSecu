@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>{% block title %}{% endblock %}</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
+    <link rel="stylesheet" href="{{ url_for('static', filename='/student_dashboard.css') }}">
+	<link rel="shortcut icon" href="{{ url_for('static', filename='images/logo.svg') }}">
+    {% block css %}{% endblock %}
+</head>
+<body>
+  <nav style="z-index: 1;" class="navbar navbar-expand-lg fixed-top navbar-scroll">
+		<div class="container-fluid">
+			<ul class="navbar-nav ml-auto">
+				<li class="nav-item d-flex">
+					<a class="navbar-brand logo_button" href="{{ url_for('student_route.student_dashboard') }}"><img class="logo" src="{{ url_for('static', filename='images/logo.svg') }}" name="HomeButton" action="/main"></a>
+				</li>
+				<li class="nav-item d-flex align-items-center">
+				</li>
+			</ul>
+				<ul class="navbar-nav mr-auto">
+					<li class="nav-item d-flex align-items-center">
+						<a class="button" title="Dashboard" href="{{ url_for('student_route.student_dashboard') }}">
+							<svg style="width: 26px; fill: #001e48;" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+								<path d="M10 14.5v8c0 .6-.4 1-1 1H2c-.6 0-1-.4-1-1V10.1c0-.3.1-.6.3-.8l10-8.6c.4-.3.9-.3 1.3 0l10 8.6c.2.2.3.5.3.8v12.4c0 .6-.4 1-1 1h-7c-.6 0-1-.4-1-1v-8H10zm-2 7v-8c0-.6.4-1 1-1h6c.6 0 1 .4 1 1v8h5V10.6l-9-7.7-9 7.7v10.9h5z"></path>
+								<path d="M10 14.5v8c0 .6-.4 1-1 1H2c-.6 0-1-.4-1-1V10.1c0-.3.1-.6.3-.8l10-8.6c.4-.3.9-.3 1.3 0l10 8.6c.2.2.3.5.3.8v12.4c0 .6-.4 1-1 1h-7c-.6 0-1-.4-1-1v-8H10zm-2 7v-8c0-.6.4-1 1-1h6c.6 0 1 .4 1 1v8h5V10.6l-9-7.7-9 7.7v10.9h5z" fill-rule="evenodd" clip-rule="evenodd"></path>
+							</svg>
+						</a>
+					</li>
+					<li class="nav-item d-flex">  
+						<div id="main">
+							<span style="font-size:30px;cursor:pointer" onclick="openNav()" title="Menu">&#9776;</span>
+					  	</div>
+					</li>
+				</ul>
+			</div>
+		</div>
+	</nav>
+	<div style="z-index: 10;" id="mySidenav" class="sidenav">
+		<div style="position: absolute; top: 0px;" class="head_sidenav d-flex justify-content-between align-items-center">
+			<a class="logout" href="{{ url_for('logout') }}" title="Uitloggen">Uitloggen</a>
+			<div class="CloseButton" onclick="closeNav()" title="Close">&times;</div>
+		</div>
+		<div class="body_sidenav">
+			<a href="{{ url_for('student_route.student_dashboard') }}">
+        <svg style="width: 22px; fill: white;" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+					<path d="M10 14.5v8c0 .6-.4 1-1 1H2c-.6 0-1-.4-1-1V10.1c0-.3.1-.6.3-.8l10-8.6c.4-.3.9-.3 1.3 0l10 8.6c.2.2.3.5.3.8v12.4c0 .6-.4 1-1 1h-7c-.6 0-1-.4-1-1v-8H10zm-2 7v-8c0-.6.4-1 1-1h6c.6 0 1 .4 1 1v8h5V10.6l-9-7.7-9 7.7v10.9h5z"></path>
+					<path d="M10 14.5v8c0 .6-.4 1-1 1H2c-.6 0-1-.4-1-1V10.1c0-.3.1-.6.3-.8l10-8.6c.4-.3.9-.3 1.3 0l10 8.6c.2.2.3.5.3.8v12.4c0 .6-.4 1-1 1h-7c-.6 0-1-.4-1-1v-8H10zm-2 7v-8c0-.6.4-1 1-1h6c.6 0 1 .4 1 1v8h5V10.6l-9-7.7-9 7.7v10.9h5z" fill-rule="evenodd" clip-rule="evenodd"></path>
+				</svg>
+        Dashboard
+      </a>
+        <a href="{{ url_for('student_route.rooster') }}">Overzicht Cursussen</a>
+        <a href="{{ url_for('student_route.s_upcoming_meetings') }}">Komende lessen</a>
+		<a href="{{ url_for('student_route.student_statistics') }}">Statistieken</a>
+		</div>
+	</div>
+
+  <div class="container mt-4">
+    {% block content %}{% endblock %}
+  </div>
+  <!-- Use any element to open the sidenav -->
+  
+  <script>
+		function openNav() {
+			document.getElementById("mySidenav").style.width = "500px";
+			document.getElementById("main").style.marginRight = "350px";
+			document.body.style.backgroundColor = "rgba(0, 0, 0, 0.3)";
+		}
+		
+		function closeNav() {
+			document.getElementById("mySidenav").style.width = "0";
+			document.getElementById("main").style.marginRight = "0";
+			document.body.style.backgroundColor = "#fff7ea";
+		}
+	</script>
+{% block js %}{% endblock %}
+</body>
+</html>

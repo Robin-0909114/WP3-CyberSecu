@@ -1,0 +1,10 @@
+Flask
+Flask-Cors
+datetime
+sqlite3
+socket
+requests
+hashids
+icalendar
+hashlib
+pi

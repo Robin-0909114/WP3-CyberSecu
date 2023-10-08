@@ -1,0 +1,99 @@
+{% extends "base4.html" %}
+
+{% block content %}
+<head>
+  <title>Student Check-In</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <script src="https://code.jquery.com/jquery-3.6.2.min.js"></script>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
+  <link rel="stylesheet" href="{{ url_for('static', filename='/login_mobile.css') }}">
+</head>
+<body>
+  <h1><br></h1>
+  <form id="checkin-form" method="POST">
+    <h1>Student Check-In</h1>
+    <input type="hidden" name="student-number" id="student-number" value="{{ session.username }}" required pattern="\d{6,8}">
+    <br>
+    <input type="hidden" name="meeting-number" id="meeting-number" value="{{ meeting_id }}" required>
+    <br>
+
+    <div class="mb-3">
+      <label for="status" class="form-label">Status:</label>
+      <select class="form-select" name="status" id="status" required>
+        <option value="Aanwezig">Aanwezig</option>
+        <option value="Afwezig">Afwezig</option>
+      </select>
+    </div>
+
+    <div id="question-container" style="display: none;">
+      <div class="mb-3">
+        <label for="question" class="form-label">Vraag:</label>
+        <span id="question-text">{{ question }}</span>
+        <input type="hidden" class="form-control" name="question" id="question" value="{{ question }}">
+      </div>
+      <div class="mb-3">
+        <label for="answer" class="form-label">Antwoord:</label>
+        <input type="text" class="form-control" name="answer" id="answer" required>
+      </div>
+    </div>
+
+    <div id="reason-container" style="display: none;">
+      <div class="mb-3">
+        <label for="reason" class="form-label">Reden:</label>
+        <input type="text" class="form-control" name="reason" id="reason">
+      </div>
+    </div>
+
+    <button type="submit" class="btn btn-lg btn-primary w-100">Submit</button>
+  </form>
+</body>
+
+<script>
+      // Gets a random question and display it
+        $(document).ready(function() {
+      // Show the question by default
+    $('#question-container').show();
+
+  // Hide the question when status is changed to "absent"
+  $('#status').on('change', function() {
+    if ($(this).val() === 'Afwezig') {
+      $('#question-container').hide();
+      $('#reason-container').show();
+    } else {
+      $('#question-container').show();
+      $('#reason-container').hide();
+    }
+  });
+
+  // Submit the form data to the server
+  $('#checkin-form').on('submit', function(event) {
+  event.preventDefault();
+  var data = {
+    'status': $('#status').val(),
+    'question': $('#question').val(),
+    'answer': $('#answer').val(),
+    'reason': $('#reason').val()
+  };
+  var studentNumber = $('#student-number').val();
+  var meetingNumber = $('#meeting-number').val();
+  var encodedStudentNumber = studentNumber.padStart(7, '0'); // add leading zeros if necessary
+  $.ajax({
+    url: '/api/checkin/' + encodeURIComponent(encodedStudentNumber) + '/' + encodeURIComponent(meetingNumber),
+    type: 'POST',
+    data: JSON.stringify(data),
+    contentType: 'application/json',
+    success: function(response) {
+      alert(response.message);
+    },
+    error: function(xhr, status, error) {
+      alert('Error checking in: ' + xhr.responseText);
+      }
+    });
+   
+  });
+});
+
+      
+  </script>
+</body>
+{% endblock %}

@@ -1,0 +1,65 @@
+{% extends "base4.html" %}
+
+{% block content %}
+<head>
+  <link rel="stylesheet" href="{{ url_for('static', filename='/student_dashboard.css') }}">
+  <link rel="shortcut icon" href="{{ url_for('static', filename='images/logo.svg') }}">
+
+</head>
+<div style="padding-top: 20px;" class="container">
+  <h1 class="my-4">Aankomende Lessen</h1>
+  <div class="col-lg-4 col-md-6">
+    <div class="row" id="meetings-list">
+     </div>
+  </div>
+</div>
+
+
+<script src="https://code.jquery.com/jquery-3.6.2.min.js"></script>
+<script>
+  $(document).ready(function() {
+    // Make a GET request to the API endpoint
+    $.ajax({
+      url: '/api/upcoming_meetings',
+      type: 'GET',
+      dataType: 'json',
+      success: function(data) {
+        // Iterate over the meetings and add them to the list
+        var meetings = data.upcoming_meetings;
+        meetings.forEach(function(meeting) {
+          var meetingId = meeting[0];
+          var title = meeting[1];
+          var date = meeting[2];
+          var time = meeting[3];
+          var duration = meeting[4];
+          var location = meeting[5];
+          var description = meeting[6];
+
+          // Create a card for each meeting
+          var card = $('<div class="card my-3">');
+          var cardBody = $('<div class="card-body">');
+          var cardTitle = $('<h5 class="card-title">').text(title);
+          var cardSubtitle = $('<h6 class="card-subtitle mb-2 text-muted">').text(date + ' ' + time);
+          var cardText = $('<p class="card-text">').text(description);
+          var cardlocation = $('<p class="card-text">').text(location);
+          var checkinButton = $('<a href="/checkin/' + meetingId + '" class="btn btn-primary">').text('Check in');
+
+          
+          cardBody.append(cardTitle);
+          cardBody.append(cardSubtitle);
+          cardBody.append(location);
+          cardBody.append(cardText);
+          cardBody.append(checkinButton);
+          card.append(cardBody);
+
+          $('#meetings-list').append(card);
+        });
+      },
+      error: function(error) {
+        console.log(error);
+      }
+    });
+  });    
+</script>
+{% endblock %}
+

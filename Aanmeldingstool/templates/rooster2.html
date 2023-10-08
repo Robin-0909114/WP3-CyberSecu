@@ -1,0 +1,76 @@
+{% extends "base2.html" %}
+
+{% block content %}
+<head>
+  <meta charset="UTF-8">
+  <title>ICS Kalender</title>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.4/moment.min.js"></script>
+  <script src="https://unpkg.com/ical.js"></script>
+</head>
+<body>
+  <div id="calendar">
+    <table>
+        <thead>
+          <tr>
+            <th>Samenvatting</th>
+            <th>Locatie</th>
+            <th>Beschrijving</th>
+            <th>Start</th>
+            <th>Eind</th>
+          </tr>
+        </thead>
+  </div>
+  <script>
+    // URL van de API die het ICS-bestand retourneert
+    const icsUrl = "https://roosterapi.hr.nl/timetables/personalized/0909114/export";
+    
+    // Haal het ICS-bestand op en verwerk het
+    fetch(icsUrl)
+      .then((response) => response.text())
+      .then((icsString) => {
+        const jcalData = ICAL.parse(icsString);
+        const comp = new ICAL.Component(jcalData);
+        const vevents = comp.getAllSubcomponents("vevent");
+        
+        // Bouw de kalender met behulp van moment.js
+        const $calendar = document.getElementById("calendar");
+        const $table = document.createElement("table");
+        const $tbody = document.createElement("tbody");
+        
+        for (const vevent of vevents) {
+          const event = new ICAL.Event(vevent);
+          const summary = event.summary;
+          const location = event.location;
+          const description = event.description;
+          const start = moment(event.startDate.toJSDate()).format("YYYY-MM-DD");
+          const end = moment(event.endDate.toJSDate()).format("YYYY-MM-DD");
+          
+          const $tr = document.createElement("tr");
+          const $summary = document.createElement("td");
+          const $location = document.createElement("td");
+          const $description = document.createElement("td");
+          const $start = document.createElement("td");
+          const $end = document.createElement("td");
+          
+          $summary.innerText = summary;
+          $location.innerText = location;
+          $description.innerText = description;
+          $start.innerText = start;
+          $end.innerText = end;
+          
+          $tr.appendChild($summary);
+          $tr.appendChild($location);
+          $tr.appendChild($description);
+          $tr.appendChild($start);
+          $tr.appendChild($end);
+          
+          $tbody.appendChild($tr);
+        }
+        
+        $table.appendChild($tbody);
+        $calendar.appendChild($table);
+      });
+  </script>
+</body>
+{% endblock %}
+

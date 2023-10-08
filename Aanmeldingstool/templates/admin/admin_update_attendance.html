@@ -1,0 +1,62 @@
+{% extends "base5.html" %}
+
+{% block content %}
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin - Update Aanwezigheid</title>
+</head>
+<body>
+    <div style="padding-top: 25px;">
+        <h1 class="fw-bold">Update Aanwezigheid</h1>
+        <div class="container">
+            <form action="/admin/attendance/update/{{ attendances[0] }}" method="post">
+                <input type="hidden" name="attendance_id" value="{{ attendances[0] }}">
+                <div class="mb-3">
+                    <label for="attendance_date" class="form-label">Datum:</label>
+                    <input type="date" class="form-control" id="attendance_date" name="attendance_date" value="{{ attendances[2] }}" required>
+                </div>
+                <div class="mb-3">
+                    <label for="attendance_time" class="form-label">Tijd:</label>
+                    <input type="time" class="form-control" id="attendance_time" name="attendance_time" value="{{ attendances[3] }}" required>
+                </div>
+                <div class="mb-3">
+                    <label for="status" class="form-label">Status:</label>
+                    <input type="text" class="form-control" id="status" name="status" value="{{ attendances[4] }}" required>
+                </div>
+                <div class="mb-3">
+                    <label for="student_number" class="form-label">Studentnummer:</label>
+                    <input type="text" class="form-control" id="student_number" name="student_number" value="{{ attendances[5] }}" required>
+                </div>
+                <div class="mb-3">
+                    <label for="question" class="form-label">Vraag:</label>
+                    <input type="text" class="form-control" id="question" name="question" value="{{ attendances[6] }}" required>
+                </div>
+                <div class="mb-3">
+                    <label for="answer" class="form-label">Antwoord:</label>
+                    <input type="text" class="form-control" id="answer" name="answer" value="{{ attendances[7] }}" required>
+                </div>
+                <div class="mb-3">
+                    <label for="reason" class="form-label">Reden:</label>
+                    <input type="text" class="form-control" id="reason" name="reason" value="{{ attendances[8] }}" required>
+                </div>
+                <div class="mb-3">
+                    <label for="meeting_id" class="form-label">Meeting ID:</label>
+                    <input type="text" class="form-control" id="meeting_id" name="meeting_id" value="{{ attendances[9] }}" required>
+                </div>
+                <div class="mb-3">
+                    <label for="student_id" class="form-label">Student ID:</label>
+                    <input type="text" class="form-control" id="student_id" name="student_id" value="{{ attendances[10] }}" required>
+                </div>
+                <div class="mb-3">
+                    <label for="class_id" class="form-label">Klas ID:</label>
+                    <input type="text" class="form-control" id="class_id" name="class_id" value="{{ attendances[11] }}" required>
+                </div>
+                <button type="submit" class="btn btn-primary">Update Aanwezigheid</button>
+                <a class="btn btn-secondary" href="/admin/classes">Terug</a>
+            </form>
+        </div>
+    </div>
+</body>
+{% endblock %}

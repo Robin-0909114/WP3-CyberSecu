@@ -1,0 +1,24 @@
+{% extends 'base4.html' %}
+
+{% block content %}
+<br>
+<br>
+<br>
+<br>
+
+  <div class="container">
+    <h1 class="my-4">Statistieken</h1>
+
+    <div class="card text-center">
+      <div class="card-header">
+        Voor student {{ session.username }}
+      </div>
+      <div class="card-body">
+        <h1 class="card-title">{{ attendance_percentage }}%</h1>
+        <p class="card-text">Percentage van aanwezigheid</p>
+      </div>
+      <div class="card-footer text-muted">
+      </div>
+    </div>
+  </div>
+{% endblock %}

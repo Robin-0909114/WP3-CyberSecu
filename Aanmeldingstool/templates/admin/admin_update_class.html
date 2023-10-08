@@ -1,0 +1,26 @@
+{% extends "base5.html" %}
+
+{% block content %}
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin - Update Klas</title>
+</head>
+<body>
+    <div style="padding-top: 25px;">
+        <h1 class="fw-bold">Update Klas</h1>
+        <div class="container">
+            <form action="/admin/classes/update/{{ classes[0] }}" method="post">
+                <input type="hidden" name="class_id" value="{{ classes[0] }}">
+                <div class="mb-3">
+                    <label for="class_name" class="form-label">Klasnaam:</label>
+                    <input type="text" class="form-control" id="class_name" name="class_name" value="{{ classes[1] }}" required>
+                </div>
+                <button type="submit" class="btn btn-primary">Update Klas</button>
+                <a class="btn btn-secondary" href="/admin/classes">Terug</a>
+            </form>
+        </div>
+    </div>
+</body>
+{% endblock %}

@@ -1,0 +1,100 @@
+{% extends 'base3.html' %}
+
+{% block content %}
+<script src="https://code.jquery.com/jquery-3.6.2.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jsSHA/2.3.1/sha.js"></script>
+<div class="container">
+  <div class="row">
+    <div class="col-md-6 offset-md-3">
+      <h2>Creëer een nieuwe meeting</h2>
+      <form id="create-meeting-form">
+        <div class="form-group">
+          <label for="title">Titel:</label>
+          <input type="text" class="form-control" id="title" name="title" required>
+        </div>
+        <br>
+        <div class="form-group">
+          <label for="date">Datum:</label>
+          <input type="date" class="form-control" id="date" name="date" required>
+        </div>
+        <br>
+        <div class="form-group">
+          <label for="time">Tijd:</label>
+          <input type="time" class="form-control" id="time" name="time" required>
+        </div>
+        <br>
+        <div class="form-group">
+          <label for="duration">Duur (in minuten):</label>
+          <input type="number" class="form-control" id="duration" name="duration" required>
+        </div>
+        <br>
+        <div class="form-group">
+          <label for="location">Locatie:</label>
+          <input type="text" class="form-control" id="location" name="location" required>
+        </div>
+        <br>
+        <div class="form-group">
+          <label for="description">Beschrijving:</label>
+          <textarea class="form-control" id="description" name="description" rows="3" required></textarea>
+        </div>
+        <br>
+        <div class="form-group">
+          <label for="question">Vraag:</label>
+          <textarea class="form-control" id="question" name="question" rows="3"></textarea>
+        </div>
+        <br>
+        <div class="form-group">
+          <label for="class_id">Klas:</label>
+          <select class="form-control" id="class_id" name="class_id">
+            <option value="none">Selecteer een klas</option>
+            <option value="1">SWDVT1A</option>
+            <option value="2">SWDVT1B</option>
+            <option value="3">SWDVT1C</option>
+            <option value="4">SWDVT1D</option>
+          </select>
+        </div>
+        <br>
+        <button type="submit" class="btn btn-primary">Creëer</button>
+      </form>
+    </div>
+  </div>
+</div>
+
+<script>
+  function generateHash(meetingId) {
+    var salt = "your_salt_here";  // Use the same salt as in your Python code
+    var inputStr = meetingId + salt;
+    var shaObj = new jsSHA("SHA-256", "TEXT");
+    shaObj.update(inputStr);
+    return shaObj.getHash("HEX");
+  }
+    $(document).ready(function() {
+        $('#create-meeting-form').submit(function(event) {
+          event.preventDefault();
+          $.ajax({
+            url: '/api/create_meeting',
+            type: 'POST',
+            data: JSON.stringify({
+              'title': $('#title').val(),
+              'date': $('#date').val(),
+              'time': $('#time').val(),
+              'duration': $('#duration').val(),
+              'location': $('#location').val(),
+              'description': $('#description').val(),
+              'question': $('#question').val(),
+              'class_id': $('#class_id').val(),
+            }),
+            contentType: 'application/json',
+            success: function(data) {
+              alert('Meeting gecreëerd!');
+              var meetingHash = generateHash(data.meeting_id);
+              window.location.href = '/meetings/' + meetingHash;
+            },            
+            error: function(jqXHR, textStatus, errorThrown) {
+              alert('Fout met creëren meeting: ' + textStatus);
+            }
+          });
+        });
+      });      
+</script>
+{% endblock %}

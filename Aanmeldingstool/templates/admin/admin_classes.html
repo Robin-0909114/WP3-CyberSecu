@@ -1,0 +1,42 @@
+{% extends "base5.html" %}
+
+{% block content %}
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin - Classes</title>
+</head>
+<body>
+  <div style="padding-top: 25px;" class="d-flex justify-content-between align-items-end">
+    <h1 class="fw-bold">Klassen</h1>
+    <a href="/admin/classes/add" class="btn btn-primary">Voeg toe</a>
+  </div> 
+    <div class="container">
+      <table class="table table-hover">
+        <thead>
+          <tr>
+            <th>ID</th>
+            <th>Klasnaam</th>
+            <th>Acties</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for class in classes %}
+            <tr>
+              <td>{{ class[0] }}</td>
+              <td>{{ class[1] }}</td>
+              <td>
+                <a href="/admin/classes/update/{{ class[0] }}" class="btn btn-outline-primary btn-sm me-2">Pas aan</a>
+                <form action="/admin/classes/delete" method="post" class="d-inline">
+                  <input type="hidden" name="class_id" value="{{ class[0] }}">
+                  <button type="submit" class="btn btn-outline-danger btn-sm">Verwijder</button>
+                </form>
+              </td>
+            </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+    
+{% endblock %}

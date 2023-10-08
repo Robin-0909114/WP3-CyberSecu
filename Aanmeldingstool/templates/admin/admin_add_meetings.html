@@ -1,0 +1,44 @@
+{% extends 'base5.html' %}
+
+{% block content %}
+    <h1>Voeg meeting toe</h1>
+    <form class="add-meeting" action="/admin/meetings/add" method="post">
+        <div class="form-group">
+            <label for="meeting_title">Title:</label>
+            <input type="text" id="meeting_title" name="meeting_title" class="form-control">
+        </div>
+        <div class="form-group">
+            <label for="meeting_date">Date:</label>
+            <input type="date" id="meeting_date" name="meeting_date" class="form-control">
+        </div>
+        <div class="form-group">
+            <label for="meeting_time">Time:</label>
+            <input type="time" id="meeting_time" name="meeting_time" class="form-control">
+        </div>
+        <div class="form-group">
+            <label for="meeting_duration">Duration:</label>
+            <input type="number" id="meeting_duration" name="meeting_duration" class="form-control" min="1">
+        </div>
+        <div class="form-group">
+            <label for="meeting_location">Location:</label>
+            <input type="text" id="meeting_location" name="meeting_location" class="form-control">
+        </div>
+        <div class="form-group">
+            <label for="meeting_description">Description:</label>
+            <textarea id="meeting_description" name="meeting_description" class="form-control"></textarea>
+        </div>
+        <div class="form-group">
+            <label for="class_id">Class ID:</label>
+            <input type="number" id="class_id" name="class_id" class="form-control" min="1">
+        </div>
+        <div class="form-group">
+            <label for="meeting_status">Status:</label>
+            <input type="text" id="meeting_status" name="meeting_status" class="form-control">
+        </div>
+        <div class="form-group">
+            <label for="question">Question:</label>
+            <textarea id="question" name="question" class="form-control"></textarea>
+        </div>
+        <input type="submit" value="Add Meeting" class="btn btn-primary">
+</form>
+{% endblock %}
