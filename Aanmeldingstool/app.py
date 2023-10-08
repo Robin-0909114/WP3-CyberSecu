@@ -108,7 +108,7 @@ def login():
         if role == 'student':
             # Validate student login
             student = get_student_by_studentnumber(username)
-            if student and bcrypt.checkpw(password, student['password'].encode('utf-8')):
+            if student and bcrypt.checkpw(password, student['password']):
                 session.clear()
                 session['student_logged_in'] = True
                 session['username'] = str(student['studentnumber'])
@@ -121,7 +121,7 @@ def login():
         elif role == 'teacher':
             # Validate teacher login
             teacher = get_teacher_by_email(username)
-            if teacher and bcrypt.checkpw(password, teacher['password'].encode('utf-8')):
+            if teacher and bcrypt.checkpw(password, teacher['password']):
                 session.clear()
                 session['teacher_logged_in'] = True
                 session['username'] = teacher['email']
@@ -134,7 +134,7 @@ def login():
         elif role == 'admin':
             # Validate admin login
             admin = get_admin_by_username(username)
-            if admin and bcrypt.checkpw(password, admin['password'].encode('utf-8')):
+            if admin and bcrypt.checkpw(password, admin['password']):
                 session.clear()
                 session['admin_logged_in'] = True
                 session['username'] = admin['username']
