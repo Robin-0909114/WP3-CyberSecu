@@ -82,13 +82,13 @@ def get_admin_by_username(username):
 def login_for_redirect(meeting_id):
     if request.method == 'POST':
         username = request.form['username']
-        password = request.form['password'].encode('utf-8')
+        password = request.form['password'].encode('utf-8') 
         role = request.form['role']
         
         if role == 'student':
             # Validate student login
             student = get_student_by_studentnumber(username)
-            if student and bcrypt.checkpw(password, student['password'].encode('utf-8')):
+            if student and bcrypt.checkpw(password, student['password']):
                 session.clear()
                 session['student_logged_in'] = True
                 session['username'] = student['studentnumber']
