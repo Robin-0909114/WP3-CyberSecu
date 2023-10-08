@@ -4,6 +4,7 @@ from lib.api_routes import students_api
 from lib.teacher_routes import teacher
 from lib.student_routes import student_route
 from lib.admin_routes import admin
+import bcrypt  
 
 
 
@@ -81,13 +82,13 @@ def get_admin_by_username(username):
 def login_for_redirect(meeting_id):
     if request.method == 'POST':
         username = request.form['username']
-        password = request.form['password']
+        password = request.form['password'].encode('utf-8')
         role = request.form['role']
         
         if role == 'student':
             # Validate student login
             student = get_student_by_studentnumber(username)
-            if student and student['password'] == password:
+            if student and bcrypt.checkpw(password, student['password'].encode('utf-8')):
                 session.clear()
                 session['student_logged_in'] = True
                 session['username'] = student['studentnumber']
@@ -101,13 +102,13 @@ def login_for_redirect(meeting_id):
 def login():
     if request.method == 'POST':
         username = request.form['username']
-        password = request.form['password']
+        password = request.form['password'].encode('utf-8')
         role = request.form['role']
         
         if role == 'student':
             # Validate student login
             student = get_student_by_studentnumber(username)
-            if student and student['password'] == password:
+            if student and bcrypt.checkpw(password, student['password'].encode('utf-8')):
                 session.clear()
                 session['student_logged_in'] = True
                 session['username'] = str(student['studentnumber'])
@@ -120,7 +121,7 @@ def login():
         elif role == 'teacher':
             # Validate teacher login
             teacher = get_teacher_by_email(username)
-            if teacher and teacher['password'] == password:
+            if teacher and bcrypt.checkpw(password, teacher['password'].encode('utf-8')):
                 session.clear()
                 session['teacher_logged_in'] = True
                 session['username'] = teacher['email']
@@ -133,7 +134,7 @@ def login():
         elif role == 'admin':
             # Validate admin login
             admin = get_admin_by_username(username)
-            if admin and admin['password'] == password:
+            if admin and bcrypt.checkpw(password, admin['password'].encode('utf-8')):
                 session.clear()
                 session['admin_logged_in'] = True
                 session['username'] = admin['username']

@@ -1,0 +1,27 @@
+import bcrypt
+import sqlite3
+
+def hash_existing_passwords(table_name, id_column, password_column):
+    conn = sqlite3.connect('Aanmeldingstool/databases/attendence.db')
+    cursor = conn.cursor()
+
+    # Fetching all user IDs and plain-text passwords
+    cursor.execute(f"SELECT {id_column}, {password_column} FROM {table_name}")
+    users = cursor.fetchall()
+
+    for user in users:
+        user_id, plain_password = user
+        
+        # Hashing the plain-text password
+        hashed_password = bcrypt.hashpw(plain_password.encode('utf-8'), bcrypt.gensalt())
+
+        # Updating the hashed password in the database
+        cursor.execute(f"UPDATE {table_name} SET {password_column} = ? WHERE {id_column} = ?", (hashed_password, user_id))
+
+    conn.commit()
+    conn.close()
+
+# Hashing passwords for students, teachers, and admins
+hash_existing_passwords('Students', 'Studentnumber', 'Password')
+hash_existing_passwords('faculty', 'faculty_email', 'Password')
+hash_existing_passwords('admin', 'username', 'password')
